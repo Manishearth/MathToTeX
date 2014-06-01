@@ -1,0 +1,93 @@
+
+ <html>
+    <head>
+    <title>MathJax Dynamic Math Test Page</title>
+<style>
+code {
+font-family: 'Droid Sans Mono',Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace,serif;
+color: 
+#222;
+background: 
+#F3F3F3;
+font-size: 12px;
+padding: 1px 5px 1px 5px;
+}
+a {
+text-decoration:none;
+}
+</style>
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [["$","$"],["\\(","\\)"]]
+        }
+      });
+//
+//  Use a closure to hide the local variables from the
+//  global namespace
+//
+window.onload=function () {
+
+//
+//  The onchange event handler that typesets the
+//  math entered by the user
+//
+window.UpdateMath = function (TeX) {
+    //set the MathOutput HTML
+    if(document.getElementById('chk').checked){
+	var conv=TypedMath.wholeShebang(TeX);
+    	document.getElementById("MathOutput").innerHTML = "$$"+conv+"$$";
+	document.getElementById("TeXbox").innerHTML = "<code>"+conv+"</code>";
+    }else{
+    document.getElementById("MathOutput").innerHTML = TeX;
+	document.getElementById("TeXbox").innerHTML = "";
+	}
+    //reprocess the MathOutput Element
+    MathJax.Hub.Queue(["Typeset",MathJax.Hub,"MathOutput"]);
+ 
+}
+window.refreshCheck=function(){
+UpdateMath(document.getElementById("MathInput").value);
+if(document.getElementById('chk').checked){
+document.getElementById("TeXWrap").style.display="block";
+}else{
+
+document.getElementById("TeXWrap").style.display="none";
+}
+}
+
+window.showHide=function(el){
+if(el.innerHTML=="(show)"){
+document.getElementById("TeXbox").style.display="inline";
+el.innerHTML="(hide)"
+}else{
+
+document.getElementById("TeXbox").style.display="none";
+el.innerHTML="(show)"
+}
+
+}
+};
+    </script>
+    <script type="text/javascript"   src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML-full">
+    </script>
+<script src="MathToTeX.js"></script>
+    </head>
+    <body>
+
+ 
+    <textarea  id="MathInput" style="width:100%;height:50%" onKeyUp="UpdateMath(this.value)"></textarea><BR><BR><label for=chk>Input is plain math(no TeX):</label><input type=checkbox checked id=chk name=chk onclick="refreshCheck()">
+    <br><br>
+    <SMALL><a id=expander href="javascript:void(0)" onclick="showHide(this)">(hide)</a></SMALL>$\LaTeX$ code:<BR><br> <span id=TeXbox style="display:inline">
+
+</span><br><br>
+     <div>Rendered math:
+    <div id="MathOutput">
+ 
+    </div>
+        </div>
+<div id=TeXWrap style="display:block">
+
+</div>
+    </body>
+    </html> 

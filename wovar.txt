@@ -1,0 +1,64 @@
+TypedMath.converts={
+	"alpha":[["a"],"alpha"],
+	"beta":[["ß"],"beta"],
+	
+}
+TypedMath.allowedProperties=["type","originalText","objects","hasparen"];
+function TypedMath(text,hasparen){
+  	this.type="TypedMath";
+	this.originalText=text;
+	this.hasparen=hasparen;
+	this.objects=[];	
+	this.breakIntoParentheses();
+	this.cleanup();
+	
+}
+TypedMath.prototype.breakIntoParentheses=function(){
+	this.i=0;
+	this.objects=[];
+	this.curstr="";
+	this.parencount=0;
+	this.hparen=false;
+	for(this.i=0;this.i<this.originalText.length;this.i++){
+		if(this.originalText.charAt(this.i)=="("){
+			this.parencount++;
+			if(this.parencount!=1){
+				this.curstr+="(";	
+			}else{
+				if(this.curstr!=""){
+					this.objects.push(new TypedMath(this.curstr,this.hparen));
+				}
+				this.curstr="";
+				this.hparen=true;
+			}
+		}else if(this.originalText.charAt(this.i)==")"){
+			this.parencount--;
+			if(this.parencount==0){
+					this.hparen=false;
+					this.objects.push(new TypedMath(this.curstr,true));
+					this.curstr="";
+			}else{
+				this.curstr+=")";	
+			}
+		}else{
+			this.curstr+=this.originalText.charAt(this.i);	
+		}
+	
+	}
+	if(this.objects.length==0){
+			this.objects=[this.originalText];
+			return this.objects;
+	}
+	if(this.curstr!=""){
+			this.objects.push(new TypedMath(this.curstr,false));
+	}	
+	return this.objects;
+}
+
+TypedMath.prototype.cleanup=function(){
+	for(x in this){
+		if(TypedMath.allowedProperties.indexOf(x)==-1){
+			delete this[x];	
+		}
+	}
+}

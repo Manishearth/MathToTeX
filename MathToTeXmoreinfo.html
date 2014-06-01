@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>About MathToTeX</title>
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [["$","$"],["\\(","\\)"]]
+        }
+      });
+	  </script>
+<style>
+code {
+font-family: 'Droid Sans Mono',Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace,serif;
+color: 
+#222;
+background: 
+#F3F3F3;
+font-size: 12px;
+padding: 1px 5px 1px 5px;
+}
+</style>
+</head>
+
+<body>
+<h2>What it does</h2>
+
+<p><a href="MathToTex.js">This script</a> converts most "typed" math into properly formed $\LaTeX$. For example, <code>(m_0)/(sqrt(1-(v^2)/(c^2)))</code> becomes <code>\frac{m_0}{\sqrt{1-\frac{v^2}{c^2}}}</code>, which can be displayed as $\frac{m_0}{\sqrt{1-\frac{v^2}{c^2}}}$</p>
+<p>The parser does a wide range of things, including:</p>
+<ul>
+<li>Identifying fractions, superscripts, subscripts, and square roots properly and converting them to $\LaTeX$</li>
+<li>Converting many different Unicode characters into their $\LaTeX$ equivalents</li>
+<li>Converting greek letters(both Unicode and typed out) and trig functions into $\LaTeX$</li>
+<li>Attempting to deal with ambiguous cases like &quot;1/a+b&quot;</li>
+<li>Other stuff which I can't think of</li>
+</ul>
+
+You can see some more examples <a href="testcases.txt">here</a>. Copy-paste them into the converter and try them out!
+
+<h2>Stuff to test</h2>
+I'd really appreciate it if this got some good testing. In it's current form, the script is pretty usable--but by no means complete.
+
+
+<p>One of my goals is to make it as receptive to human input as possible. Which means that it should be able to deal with ambiguous cases pretty well. It should obviously be able to handle the non-ambiguous and semi-ambiguous cases as well. You may use the <a href="testcases.txt">testcases file</a> to get ideas if you want. Or just go randomly, typing math as you would.</p>
+<p>Email any comments/feedback/whatever to manishearth[at]toolserver[dot]org</p>
+
+<small>Note: there is a known issue with square roots, where stuff like <code>1/sqrt(2)</code> is not properly converted.</small>
+
+<h2>How it works</h2>
+
+Basically this script breaks the input recursively into parenthesis-delimited objects. So, we can have an object tree that depends upon the nested parentheses.
+
+To deal with ambiguities, it normalizes certain input <em>before</em> it puts it into the parser. For example, 
+<code>1/a+b</code> is converted into <code>(1)/(a+b)</code>.
+
+Then, the object can be "compiled", where the object tree is traversed and recursively assembled into $\LaTeX$.
+
+Finally, there are conversion methods which can be applied to do replacements of Greek letters, etc.
+
+<a href="MathToTeX.js">There is more documentation embedded in the script</a>
+</body>
+</html>

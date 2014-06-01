@@ -1,0 +1,100 @@
+
+ <html>
+    <head>
+    <title>MathJax Dynamic Math Test Page</title>
+<style>
+code {
+font-family: 'Droid Sans Mono',Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace,serif;
+color: 
+#222;
+background: 
+#F3F3F3;
+font-size: 12px;
+padding: 1px 5px 1px 5px;
+}
+a {
+text-decoration:none;
+}
+</style>
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [["$","$"],["\\(","\\)"]]
+        }
+      });
+//
+//  Use a closure to hide the local variables from the
+//  global namespace
+//
+window.onload=function () {
+
+//
+//  The onchange event handler that typesets the
+//  math entered by the user
+//
+window.UpdateMath = function (TeX) {
+    //set the MathOutput HTML
+    if(document.getElementById('chk').checked){
+	var conv=TypedMath.wholeShebang(TeX);
+    	document.getElementById("MathOutput").innerHTML = "$$"+conv+"$$";
+	document.getElementById("TeXbox").innerHTML = "<code>"+conv+"</code>";
+    }else{
+    document.getElementById("MathOutput").innerHTML = TeX;
+	document.getElementById("TeXbox").innerHTML = "";
+	}
+    //reprocess the MathOutput Element
+    MathJax.Hub.Queue(["Typeset",MathJax.Hub,"MathOutput"]);
+ 
+}
+window.refreshCheck=function(){
+UpdateMath(document.getElementById("MathInput").value);
+if(document.getElementById('chk').checked){
+document.getElementById("TeXWrap").style.display="block";
+}else{
+
+document.getElementById("TeXWrap").style.display="none";
+}
+}
+
+window.showHide=function(el){
+if(el.innerHTML=="(show)"){
+document.getElementById("TeXbox").style.display="inline";
+el.innerHTML="(hide)"
+}else{
+
+document.getElementById("TeXbox").style.display="none";
+el.innerHTML="(show)"
+}
+
+}
+};
+    </script>
+    <script type="text/javascript"   src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML-full">
+    </script>
+<script src="MathToTeX.js"></script>
+    </head>
+    <body>
+
+ 
+    <table style="width:100%;height:20%"><tr style="width:100%;height:100%"><td style="width:60%;height:100%"><textarea  id="MathInput" style="width:100%;height:100%" onKeyUp="UpdateMath(this.value)"></textarea></td><td><label for=chk>Input is plain math(no TeX):</label><input type=checkbox checked id=chk name=chk onclick="refreshCheck()"><br><br> Instructions:
+    <ul><li>Type in normal TeX (this is if the checkbox is unchecked), use <code>$....$</code> and <code>$$....$$</code> to enter mathmode. The former is inline, the latter is block and larger.</li><li>If you do not know TeX, click the checkbox above. Now type math like <code>1/2+1/(3+4^3)</code>, and it will render it by converting to $\LaTeX$. This is an experimental feature. (<a href="testcases.txt">Some stuff you can try out</a>)</li><li><a href="MathToTeXmoreinfo.html">More info on the script here</a></li></ul></td></tr></table>
+   <div>Rendered math:
+    <div id="MathOutput">
+ 
+    </div>
+        </div><br><br><br>
+<div id=TeXWrap style="display:block">
+<SMALL><a id=expander href="javascript:void(0)" onclick="showHide(this)">(show)</a></SMALL>$\LaTeX$ code:<BR><br> <span id=TeXbox style="display:none">
+
+</span>
+</div>
+<br><br><br><br><br><br><br><br><br>
+<table width="100%" style="position:absolute;	bottom:0;"><tr><td>
+<a href="http://www.mathjax.org/">
+  <img title="Powered by MathJax"
+       src="http://www.mathjax.org/badge.gif"
+       border="0" alt="Powered by MathJax" />
+</a></td><td align=right>
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">MathToTeX.js</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.</td></tr></table>
+    </body>
+    </html> 
