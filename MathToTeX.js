@@ -10,7 +10,8 @@
 // deal with 1/ab-->(1/a)b without breaking m_0^2/2 and 1/2/2/2
 
 
-/**Generates final LaTeX from typed math
+/**
+* Generates final LaTeX from typed math
 * This function is just there for convenience-- no need to create a TypedMath object, compile, and clean up.
 * Use this when you just want the final LaTeX result and don't need to analyse the TypedMath object
 */
@@ -138,6 +139,7 @@ TypedMath.prototype.breakIntoParentheses=function(){
 	var curstr=""; //the current string being built
 	var parencount=0; //denotes the level of parentheses. Since this function is recusrively called, it only needs to token-ify the text into top-level parenthesized tokens
 	var hparen=false;  //hasparen flag
+	// FIXME: Add token seperation here
 	for(i=0;i<this.originalText.length;i++){
 		
 		if(this.originalText.charAt(i)=="("){ 
